@@ -1,1 +1,1 @@
-<?php echo $this->getLayout()->createBlock('cms/block')­>setBlockId('social­_login')­>toHtml(); ?>
+<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('social_login')->toHtml(); ?> 
