@@ -1,0 +1,37 @@
+1. in the file below comment out the part from the screenshot like so:
+app/design/frontend/base/default/template/clearcode_addshoppers/tracking.phtml
+change this line:
+AddShoppersTracking = <?php echo $this->getJSONConfig(); ?>;
+to:
+//AddShoppersTracking = <?php echo $this->getJSONConfig(); ?>;
+
+it should look like this when complete: http://screencast.com/t/UEvJZyZ9bE
+
+2. in app/design/frontend/default/YOURTHEME/template/checkout/success.phtml
+add this code to the bottom of that file:
+
+<?php
+/* get first all items assign variables for first item */
+$order_items = $order->getAllItems();
+foreach($order_items as $item) {
+    $product = Mage::getModel('catalog/product')->load($item->getProductId());
+    $prodimgurl = $product->getMediaConfig()->getMediaUrl($product->getData('image'));
+    $prodname = $product->getName();
+    $proddesc = $product->getData('description');
+    $produrl = $product->getProductUrl();
+    break;
+}
+?>
+<?php /* if all variables are assigned then set them in addshoppers tracking */ ?>
+<?php if($prodimgurl && $prodname && $proddesc && $produrl): ?>
+	<script type="text/javascript">
+		AddShoppersTracking = {
+			async: false,
+        	image: <?php echo $prodimgurl; ?>,
+        	url: <?php echo $produrl; ?>,
+        	name: <?php echo $prodname; ?>,
+        	description: <?php echo $proddesc; ?>,
+    	}    
+    	AddShoppersWidget.onload();
+	</script>
+<?php endif; ?>
