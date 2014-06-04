@@ -1,7 +1,4 @@
 <script type="text/javascript"> 
-// TO DO: fill in your domain below
-var mydomain = 'http://www.yourdomain.com';
-
 // To configure which login buttons are used here, go down to the comment that says BUTTONS HERE
 
 // Init code					
@@ -27,7 +24,7 @@ function createAccount(params) {
 	       				var name = data[service + '_name']; 
           			};
 	     			name = name.replace(/ /g, '­-');
-          			var loc = mydomain + "/create.php?asusrnm=" + name + "&aseml=" + email + "&data=" + JSON.stringify(data);
+          			var loc = "/create.php?asusrnm=" + name + "&aseml=" + email + "&data=" + JSON.stringify(data);
 	      			document.getElementById("createme").src = loc;
 	      			break; 
         		};
