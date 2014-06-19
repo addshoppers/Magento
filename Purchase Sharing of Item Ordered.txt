@@ -9,7 +9,10 @@ it should look like this when complete: http://screencast.com/t/UEvJZyZ9bE
 
 2. in app/design/frontend/default/YOURTHEME/template/checkout/success.phtml
 add this code to the bottom of that file:
-
+<?php
+$order = Mage::getModel('sales/order')->loadByIncrementId(Mage::getSingleton('checkout/session')->getLastRealOrderId());
+$amount = number_format($order->subtotal,2);
+?>
 <?php
 /* get first all items assign variables for first item */
 $order_items = $order->getAllItems();
