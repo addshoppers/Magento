@@ -1,0 +1,60 @@
+
+<!-- schema.org additions -->
+                <div itemscope itemtype="http://schema.org/Product">
+                        <meta itemprop='url' content='<?php echo $_product->getProductUrl(); ?>' />
+                        <meta itemprop='productID' content='<?php echo $theprodid = $_product->getId(); ?>' />
+                        <meta itemprop='name' content='<?php echo str_replace("'",'',str_replace('"','',$_product->getName())); ?>' />
+                        <meta property="addshoppers:productid" content="<?php echo $theprodid; ?>" />
+                        <meta itemprop="image" content="<?php echo $this->helper('catalog/image')->init($_product, 'image'); ?>" />
+
+
+                        <!-- schema offer price and qty -->
+                        <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                                <?php $productTypeId = $_product->getTypeId(); ?>
+                                <?php if($productTypeId == 'simple'): ?>
+                                        <meta itemprop="price" content="<?php echo str_replace(',','',number_format($_product->getPrice(),2)); ?>" />
+                                                <script>
+                                                        AddShoppersTracking = {
+                                                        price: '$<?php echo str_replace(',','',number_format($_product->getPrice(),2)); ?>'
+                                                }
+                                                </script>
+                                <?php elseif($productTypeId == 'grouped'): ?>
+                                        <?php
+                                             	$assocprods = $_product->getTypeInstance(true)->getAssociatedProducts($this->getProduct());
+                                                $prices = array();
+                                                foreach ($assocprods as $ids) {
+                                                        $prices[] = $ids->getPrice();
+                                                }
+                                                echo '<meta itemprop="price" content="'.  number_format(min($prices),2) . '" />';
+                                        ?>
+                                        <script>
+                                                AddShoppersTracking = {
+                                                        price: '$<?php echo number_format(min($prices),2) ?>'
+                  	                        }
+                                        </script>
+                                <?php elseif($productTypeId == 'configurable'): ?>
+                                        <?php
+                                                $childIds = Mage::getModel('catalog/product_type_configurable')->getChildrenIds($_product->getId());
+                                                $prices = array();
+                                                foreach($childIds[0] as $key=>$val)
+                                                {
+                                                        $associatedProduct = Mage::getModel('catalog/product') ->load($val);
+                                                        $prices[] = $associatedProduct->getPrice();
+                                                }
+                                                echo '<meta itemprop="price" content="'.  number_format(min($prices),2) . '" />';
+                                        ?>
+                                        <script>
+                                                AddShoppersTracking = {
+                                                        price: '$<?php echo number_format(min($prices),2) ?>'
+                                                }
+                                        </script>
+                                <?php endif; ?>
+                                <meta itemprop="priceCurrency" content="USD" />
+                                <?php   $qtyStock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty(); ?>
+                                <?php if($qtyStock > 0): ?>
+                                        <meta itemprop='availability' content='InStock' />
+                                        <meta itemprop='itemCondition' content='New' />
+                                <?php endif; ?>
+                        </div>
+                </div>
+              	<!-- END schema.org additions -->
