@@ -1,0 +1,17 @@
+<?php
+$asproduct = Mage::getModel('catalog/product')->load($_product->getId());
+
+$ascats = $asproduct->getCategoryIds();
+foreach ($ascats as $category_id) {
+        $_cat = Mage::getModel('catalog/category')->load($category_id) ;
+        $asCategory = $_cat->getName();
+        break;
+}
+?>
+
+<Script>
+AddShoppersTracking = {
+    category: '<?php echo $asCategory; ?>'
+}
+</script>
+
