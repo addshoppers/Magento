@@ -56,6 +56,17 @@ foreach($order_items as $item) {
     	}    
     	AddShoppersWidget.onload();
 	</script>
+<?php else: ?>
+        <script type="text/javascript">
+        AddShoppersTracking = {
+            auto:true,
+            image: 'https://example.com/some/url/to/an/image.jpg',
+            url: 'http://www.example.com/',
+            name: 'Example Name',
+            description: 'Example description',
+            //campaign: 'purchaseShare'
+        }    
+    </script>
 <?php endif; ?>
 
 
