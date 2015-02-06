@@ -47,21 +47,17 @@ if (window.addEventListener) {
 </script>					
 <iframe id="createme" src="about:blank" width="0" height="0" frameborder="0" scrolling="no"></iframe>
 
-<!-- BUTTONS HERE -->
+
 <!-- Put your Social Shopper Login button code here. Facebook is already included for this example. -->
 <!-- Facebook -->
-<div class="social-commerce-signin-facebook" data-style="logoandtext" data-size="medium"></div>
+<div class="social-commerce-signin-facebook" data-style="logoandtext" data-size="small"></div>
 <!-- Paypal -->
-<div class="social-commerce-signin-paypal" data-style="logoandtext" data-size="medium"></div>
+<div class="social-commerce-signin-paypal" data-style="logoandtext" data-size="small"></div>
+<!--LinkedIn -->				
+<div class="social-commerce-signin-linkedin" data-style="logoandtext" data-size="small"></div>
+<!-- Google -->				
+<div class="social-commerce-signin-google" data-style="logoandtext" data-size="small"></div>
 
 <br>
 <div>Please click the sign in with any social button above and login to your account.</div>
 
-					
-<!-- This comment includes Social Shopper Login button code for other networks
-LinkedIn:				
-<div class="social-commerce-signin-linkedin" data-style="logoandtext" data-size="medium"></div>
-
-Google:				
-<div class="social-commerce-signin-google" data-style="logoandtext" data-size="medium"></div>
--->
