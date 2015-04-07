@@ -1,0 +1,56 @@
+1. in the file below comment out the part from the screenshot like so:
+-------------------------------------------------------------------------------------------------
+app/design/frontend/base/default/template/clearcode_addshoppers/tracking.phtml
+change this line:
+AddShoppersTracking = <?php echo $this->getJSONConfig(); ?>;
+to:
+//AddShoppersTracking = <?php echo $this->getJSONConfig(); ?>;
+
+it should look like this when complete: http://screencast.com/t/UEvJZyZ9bE
+
+2. in app/design/frontend/default/YOURTHEME/template/checkout/success.phtml
+-------------------------------------------------------------------------------------------------
+add this code to the bottom of that file:
+<?php
+$order = Mage::getModel('sales/order')->loadByIncrementId(Mage::getSingleton('checkout/session')->getLastRealOrderId());
+$amount = number_format($order->subtotal,2);
+?>
+
+3. and also add this code:
+-------------------------------------------------------------------------------------------------
+
+<!-- Start: Addshoppers.com Purchase Sharring -->
+<?php
+
+/* get most expensive item as shared item */
+
+$highestPrice = 0;
+$order_items = $order->getAllItems();
+foreach($order_items as $item) {
+    $product = Mage::getModel('catalog/product')->load($item->getProductId());
+    if($product->getPrice() > $highestPrice){
+        $highestPrice = $product->getPrice();
+        $prodimgurl = $product->getMediaConfig()->getMediaUrl($product->getData('image'));
+        $prodname = $product->getName();
+        $proddesc = $product->getData('description');
+        $produrl = $product->getProductUrl();
+
+        //check if has a parent grouped or config and set new info based on parent
+    	$parentIdConfig = Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild( $item->getProductId() );
+    	$parentIdGrouped = Mage::getModel('catalog/product_type_grouped')->getParentIdsByChild( $item->getProductId() );
+    	if(isset($parentIdConfig[0])){
+    		$pcProduct = Mage::getModel('catalog/product')->load($parentIdConfig[0]);
+    		$prodimgurl = $pcProduct->getMediaConfig()->getMediaUrl($product->getData('image'));
+    		$produrl = $pcProduct->getProductUrl();
+
+    		echo "new url: ". $produrl;
+    	}
+    	else if(isset($parentIdGrouped[0])){
+    		$pgProduct = Mage::getModel('catalog/product')->load($parentIdGrouped[0]);
+    		$prodimgurl = $pgProduct->getMediaConfig()->getMediaUrl($product->getData('image'));
+    		$produrl = $pgProduct->getProductUrl();
+    	}
+ 
+    }
+
+?>
