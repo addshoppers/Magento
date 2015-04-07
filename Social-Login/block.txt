@@ -16,6 +16,7 @@ function createAccount(params) {
         		var email = data[service + '_email'];
         		if (service == 'twitter') {
            			//alert('popup get email'); 
+           			var email = prompt("Please enter your email", "");
         		};
         		if (email) {
           			if (service !='twitter' ) {				   
