@@ -54,3 +54,28 @@ foreach($order_items as $item) {
     }
 
 ?>
+
+<?php /* if all variables are assigned then set them in addshoppers tracking */ ?>
+<?php if($prodimgurl && $prodname && $proddesc && $produrl): ?>
+	<script type="text/javascript">
+		AddShoppersTracking = {
+			async: false,
+        	image: <?php echo $prodimgurl; ?>,
+        	url: <?php echo $produrl; ?>,
+        	name: <?php echo $prodname; ?>,
+        	description: <?php echo $proddesc; ?>,
+    	}    
+    	AddShoppersWidget.onload();
+	</script>
+<?php else: ?>
+        <script type="text/javascript">
+        AddShoppersTracking = {
+            auto:true,
+            image: 'https://example.com/some/url/to/an/image.jpg',
+            url: 'http://www.example.com/',
+            name: 'Example Name',
+            description: 'Example description',
+            //campaign: 'purchaseShare'
+        }    
+    </script>
+<?php endif; ?>
