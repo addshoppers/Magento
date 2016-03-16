@@ -3,7 +3,7 @@
 
 // TODO: Set your AddShoppers API Secret Key below (found in https://www.addshoppers.com/merchants under Settings -> API)
 //$AddShoppersSecret = "Jq4I1erOXzXyGvSVYqN-WCMZBG-CLX0n";
-$AddShoppersSecret = "Fcjt1ei0v8QqlShyvsg8bR-EEIrfxOmt";
+$AddShoppersSecret = "";
 
 /*
 *
