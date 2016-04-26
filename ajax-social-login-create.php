@@ -6,8 +6,8 @@ $AddShoppersSecret = "XXXXXXXXXXXXXXXXX";
 
 //-----get info from url
 $urluser = $_GET["asusrnm"];
-$urlemail = $_GET["aseml"];
-
+//$urlemail = $_GET["aseml"];
+$urlemail = "";
 
 // validate signature 
 $params = json_decode($_GET["data"]);
