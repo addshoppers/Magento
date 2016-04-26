@@ -1,0 +1,106 @@
+<script type="text/javascript">
+//append login form to end of body
+//jQuery("body").append('<form action="/customer/account/loginPost/" method="post" id="asLoginForm" class="" style="display:none;"><input name="form_key" type="hidden" value="" id="asFormKey"><input type="email" name="login[username]" value="" id="asEmail"><input type="password" name="login[password]" id="asPass" ></form>');
+
+
+// Init code					
+function init() {
+   AddShoppersWidget.API.Event.bind("sign_in", createAccount);		
+};
+
+//Create Account 
+function createAccount(params) {        
+   if (params.source == "social_login") {               
+        services = ['facebook', 'google', 'linkedin', 'twitter', 'paypal','instagram'];
+        var data = AddShoppersWidget.API.User.signed_data(); 
+        for( var i=0; i < services.length; i++ ) {              
+            service = services[i];
+            if (AddShoppersWidget.API.User.signed(service)) {
+                var email = data[service + '_email'];
+                if (service == 'twitter') {
+                    //alert('popup get email'); 
+                    var email = prompt("Please enter your email", "");
+                };
+                if (email) {
+                    if (service !='twitter' ) {                
+                        var name = data[service + '_firstname'] + '_' + data[service + '_lastname']; 
+                    } else {
+                        var name = data[service + '_name']; 
+                    };
+
+
+//var loc = "/create.php?asusrnm=" + name + "&aseml=" + email + "&data=" + JSON.stringify(data);
+//document.getElementById("createme").src = loc;
+
+    jQuery.ajax({
+                        type: "GET",
+                        url: "/create.php?asusrnm=" + name + "&aseml=" + email + "&data=" + JSON.stringify(data),
+                        success: function (data) {
+                                console.log(data);
+                                if(data == "false"){
+                                    console.log('failboat');
+                                } else {
+                                    asVars = data;
+                                    asRay = asVars.split("|");
+
+                                    //try to login
+                                    //document.getElementById('asEmail').value = email;
+                                    //document.getElementById('asPass').value = asRay[1];
+
+//check length of my accnt and fill in values
+if (jQuery("#email").length > 0) {
+document.getElementById('email').value = email;
+document.getElementById('pass').value = asRay[1];
+jQuery("#login-form").submit();
+}
+
+//check length checkout page fill in values 
+if (jQuery("#login-email").length > 0) {
+document.getElementById('login-email').value = email;
+document.getElementById('login-password').value = asRay[1];
+jQuery("#login-form").submit();
+}
+
+
+                                  // jQuery('#asLoginForm').submit();
+
+                                }
+                        }
+                  });
+
+                    break; 
+                };
+            }; 
+        };  
+    };              
+}
+
+
+
+					
+// Bind events
+if (window.addEventListener) {			
+   window.addEventListener("load", init, false); 
+} else {
+   document.onreadystatechange = function() { 
+    if(document.readyState in {loaded: 1, complete: 1}) {
+	document.onreadystatechange = null; 
+       init();			
+    } 
+  }					
+}
+</script>
+
+
+<iframe id="createme" src="about:blank" width="0" height="0" frameborder="0" scrolling="no"></iframe>
+
+
+<!-- Put your Social Shopper Login button code here. Facebook is already included for this example. -->
+<!-- Facebook -->
+<div class="social-commerce-signin-facebook" data-style="logoandtext" data-size="small">&nbsp;</div>
+<!-- Paypal -->
+<div class="social-commerce-signin-instagram" data-style="logoandtext" data-size="small">&nbsp;</div>
+<!--LinkedIn -->
+<div class="social-commerce-signin-twitter" data-style="logoandtext" data-size="small">&nbsp;</div>
+<!-- Google -->
+<div class="social-commerce-signin-google" data-style="logoandtext" data-size="small">&nbsp;</div>
