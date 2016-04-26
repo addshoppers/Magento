@@ -4,6 +4,10 @@ error_reporting(E_ALL | E_STRICT);
 // **********TODO: Set your AddShoppers API Secret Key below (found in https://www.addshoppers.com/merchants under Settings -> API)
 $AddShoppersSecret = "XXXXXXXXXXXXXXXXX";
 
+//-----get info from url
+$urluser = $_GET["asusrnm"];
+$urlemail = $_GET["aseml"];
+
 
 // validate signature 
 $params = json_decode($_GET["data"]);
@@ -16,6 +20,11 @@ foreach($params as $key => $value)
         $signature = $value;
     else
     	$p[] = $key . "=" . $value;
+    	$pos = strpos($key, "_email");
+    	if($pos){
+        	$urlemail = $value;
+    	}
+
 }
 asort($p);
 $query = $AddShoppersSecret . implode($p);
@@ -25,9 +34,7 @@ if($signature !== $hashed)
         
 // signature validated, this is a valid request... continue on
 
-//-----get info from url
-$urluser = $_GET["asusrnm"];
-$urlemail = $_GET["aseml"];
+
 
 //-----check if	a name and email exist
 if(!$urluser){
