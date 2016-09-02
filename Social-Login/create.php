@@ -25,7 +25,11 @@ foreach($params as $key => $value)
     if($key == "signature")
         $signature = $value;
     else
-    	$p[] = $key . "=" . $value;
+        $p[] = $key . "=" . $value;
+    $pos = strpos($key, "_email");
+    if($pos){
+        $userEmail = $value;
+    }
 }
 asort($p);
 $query = $AddShoppersSecret . implode($p);
@@ -37,7 +41,6 @@ if($signature !== $hashed)
 
 //-----get info from url
 $urluser = $_GET["asusrnm"];
-$urlemail = $_GET["aseml"];
 
 //-----check if	a name and email exist
 if(!$urluser){
