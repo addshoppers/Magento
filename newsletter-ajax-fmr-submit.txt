@@ -1,4 +1,0 @@
-<form action="http://www.fieldsupply.com/newsletter/subscriber/new/" method="post" id="newsletter-form" name="newsletter-form" onsubmit="new Ajax.Updater({success:'newsletter-form'}, 'http://www.fieldsupply.com/newsletter/subscriber/new/', {asynchronous:true, evalScripts:false, onComplete:function(request, json){Element.hide('newsletter-form');Element.show('feedback');}, onLoading:function(request, json){}, parameters:Form.serialize(this)}); showAScoupon(); return false;">
-
-
-</form>
