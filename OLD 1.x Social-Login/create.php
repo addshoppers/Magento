@@ -41,6 +41,7 @@ if($signature !== $hashed)
 
 //-----get info from url
 $urluser = $_GET["asusrnm"];
+$urlemail = $userEmail;
 
 //-----check if	a name and email exist
 if(!$urluser){
