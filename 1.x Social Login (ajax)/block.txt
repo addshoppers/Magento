@@ -32,7 +32,7 @@ function createAccount(params) {
 //var loc = "/create.php?asusrnm=" + name + "&aseml=" + email + "&data=" + JSON.stringify(data);
 //document.getElementById("createme").src = loc;
 
-    jQuery.ajax({
+                    jQuery.ajax({
                         type: "GET",
                         url: "/create.php?asusrnm=" + name + "&aseml=" + email + "&data=" + JSON.stringify(data),
                         success: function (data) {
@@ -43,24 +43,19 @@ function createAccount(params) {
                                     asVars = data;
                                     asRay = asVars.split("|");
 
-                                    //try to login
-                                    //document.getElementById('asEmail').value = email;
-                                    //document.getElementById('asPass').value = asRay[1];
+                                    //check length of my accnt and fill in values
+                                    if (jQuery("#email").length > 0) {
+                                    document.getElementById('email').value = email;
+                                    document.getElementById('pass').value = asRay[1];
+                                    jQuery("#login-form").submit();
+                                    }
 
-//check length of my accnt and fill in values
-if (jQuery("#email").length > 0) {
-document.getElementById('email').value = email;
-document.getElementById('pass').value = asRay[1];
-jQuery("#login-form").submit();
-}
-
-//check length checkout page fill in values 
-if (jQuery("#login-email").length > 0) {
-document.getElementById('login-email').value = email;
-document.getElementById('login-password').value = asRay[1];
-jQuery("#login-form").submit();
-}
-
+                                    //check length checkout page fill in values 
+                                    if (jQuery("#login-email").length > 0) {
+                                    document.getElementById('login-email').value = email;
+                                    document.getElementById('login-password').value = asRay[1];
+                                    jQuery("#login-form").submit();
+                                    }
 
                                   // jQuery('#asLoginForm').submit();
 
@@ -69,7 +64,9 @@ jQuery("#login-form").submit();
                   });
 
                     break; 
-                };
+                } else {
+                 alert('Sorry, could not log you in because your security settings under your ' + params.network + ' account. Please allow access to your email or try another network.');
+               }
             }; 
         };  
     };              
