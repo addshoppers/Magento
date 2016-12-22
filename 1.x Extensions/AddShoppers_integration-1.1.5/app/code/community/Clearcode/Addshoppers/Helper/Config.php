@@ -2,15 +2,16 @@
 
 class Clearcode_Addshoppers_Helper_Config
 {
-    private $storeCode;
+    private $storeCode = null;
+    private $websiteCode = null;
 
     public function __construct($storeCode = null)
     {
         if (isset($storeCode)) {
             $this->storeCode = $storeCode;
         }
-        else {
-            $this->storeCode = null;
+        elseif (isset(Mage::app()->getRequest()->getParam('website'))) {
+            $this->websiteCode = Mage::app()->getRequest()->getParam('website');
         }
     }
 
@@ -236,8 +237,21 @@ class Clearcode_Addshoppers_Helper_Config
     private function saveConfigForStore($path, $value)
     {
         $configModel = Mage::getResourceModel('core/config');
-        $storeId = ($this->storeCode == 'default') ? 0 : Mage::app()->getStore($this->storeCode)->getId();
-        $scope = ($this->storeCode != 'default' && $storeId != 0) ? 'stores' : 'default';
-        $configModel->saveConfig($path, $value, $scope, $storeId);
+        if (!is_null($this->storeCode)) {
+            if ($this->storeCode == 'default') {
+                $id = 0;
+            } else {
+                $id = Mage::app()->getStore($this->storeCode)->getId();
+            }
+            $scope = ($this->storeCode != 'default' && $storeId != 0) ? 'stores' : 'default';
+        } elseif (!is_null($this->websiteCode)) {
+            $id = Mage::getModel('core/website')->load( $this->websiteCode )->getId();
+            $scope = ($this->websiteCode != 'default' && $storeId != 0) ? 'websites' : 'default';
+        } else {
+            $id = 0;
+            $scope = 'default';
+        }
+ 
+        $configModel->saveConfig($path, $value, $scope, $id);
     }
 }
